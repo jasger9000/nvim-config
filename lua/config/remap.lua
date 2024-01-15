@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
 -- open search
-vim.keymap.set("n", "<leader>npv", vim.cmd.Ex);
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex);
 
 -- Moving stuff that's selected
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -23,12 +23,10 @@ vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
 vim.keymap.set("n", "Q", "<nop>")
-
--- capitatilazion can get fucked
-vim.cmd("command WQ wq")
-vim.cmd("command Wq wq")
-vim.cmd("command W w")
-vim.cmd("command Q q")
+vim.keymap.set("", "<up>", "<nop>")
+vim.keymap.set("", "<down>", "<nop>")
+vim.keymap.set("", "<left>", "<nop>")
+vim.keymap.set("", "<right>", "<nop>")
 
 -- switch projects
 vim.keymap.set("n", "C-f", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
