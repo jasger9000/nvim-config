@@ -1,12 +1,22 @@
 return {
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v3.x',
+		branch = 'v4.x',
 		config = function()
-			local lsp = require('lsp-zero')
-			lsp.extend_lspconfig()
+			vim.opt.signcolumn = 'yes'
 
+			local lspconfig = require('lspconfig')
+
+			local lspconfig_defaults = lspconfig.util.default_config
+			lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+				'force',
+				lspconfig_defaults.capabilities,
+				require('cmp_nvim_lsp').default_capabilities()
+			)
+
+			local lsp = require('lsp-zero')
 			local cmp = require('cmp')
+
 			cmp.setup({
 				sources = {
 					{ name = 'path' },
@@ -15,9 +25,22 @@ return {
 				},
 				formatting = lsp.cmp_format(),
 				mapping = cmp.mapping.preset.insert({
-					['<Space>'] = cmp.mapping.confirm({ select = false }),
-					['<Enter>'] = cmp.mapping.confirm({ select = false }),
+					-- Navigate between completion items
+					['<C-p>'] = cmp.mapping.select_prev_item({behavior = 'select'}),
+					['<C-n>'] = cmp.mapping.select_next_item({behavior = 'select'}),
+
+					['<CR>'] = cmp.mapping.confirm({ select = false }),
+
+					['<C-Space>'] = cmp.mapping.complete(),
+
+					['<C-j>'] = cmp.mapping.scroll_docs(-4),
+					['<C-d>'] = cmp.mapping.scroll_docs(4),
 				}),
+				snipper = {
+					expand = function(args)
+						vim.snippet.expand(args.body)
+					end,
+				},
 			})
 
 			lsp.on_attach(function(_client, bufnr)
@@ -28,13 +51,20 @@ return {
 
 			require('mason').setup({})
 			require('mason-lspconfig').setup({
-				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx' },
+				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'jinja_lsp' },
 				handlers = {
 					lsp.default_setup,
+
 					lua_ls = function()
 						local lua_opts = lsp.nvim_lua_ls()
-						require('lspconfig').lua_ls.setup(lua_opts)
+						lspconfig.lua_ls.setup(lua_opts)
 					end,
+
+					jinja_lsp = function ()
+						lspconfig.jinja_lsp.setup({
+							filetypes =  { 'jinja', 'htmldjango' },
+						})
+					end
 				},
 			})
 		end
@@ -46,5 +76,4 @@ return {
 	{ 'neovim/nvim-lspconfig' },
 	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },
-	{ 'L3MON4D3/LuaSnip' },
 }
