@@ -28,8 +28,10 @@ vim.keymap.set("", "<down>", "<nop>")
 vim.keymap.set("", "<left>", "<nop>")
 vim.keymap.set("", "<right>", "<nop>")
 
--- switch projects
-vim.keymap.set("n", "C-f", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+-- buffer switching
+vim.keymap.set("n", "<C-D>", "<cmd>:bd<CR>")
+vim.keymap.set("n", "<C-J>", "<cmd>:bp<CR>")
+vim.keymap.set("n", "<C-K>", "<cmd>:bn<CR>")
 
 -- replace highlighted
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
