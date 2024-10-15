@@ -1,7 +1,8 @@
 require("config.remap")
 require("config.set")
+require("config.autocmds")
 
---#region Setup lazy
+-- #region Setup lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -14,7 +15,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
---#endregion
+-- #endregion
 
 require("lazy").setup({
 	spec = {
