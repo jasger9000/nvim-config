@@ -51,7 +51,7 @@ return {
 
 			require('mason').setup({})
 			require('mason-lspconfig').setup({
-				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'jinja_lsp' },
+				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'html' },
 				handlers = {
 					lsp.default_setup,
 
@@ -60,11 +60,26 @@ return {
 						lspconfig.lua_ls.setup(lua_opts)
 					end,
 
-					jinja_lsp = function ()
-						lspconfig.jinja_lsp.setup({
-							filetypes =  { 'jinja', 'htmldjango' },
+					html = function ()
+						lspconfig.html.setup({
+							filetypes = { 'html', 'templ', 'htmldjango' },
 						})
 					end
+--					jinja_lsp = function ()
+--						lspconfig.jinja_lsp.setup({
+--							filetypes = { 'jinja', 'rust', 'htmldjango' },
+--							capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+--							root_dir = function(fname)
+--								return "."
+--								--return nvim_lsp.util.find_git_ancestor(fname)
+--							end,
+--							init_options = {
+--								templates = './templates',
+--								backend = { './src' },
+--								lang = "rust"
+--							},
+--						})
+--					end
 				},
 			})
 		end
