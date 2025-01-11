@@ -1,9 +1,8 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
 		opts = function ()
-
 			local icons = {
 				diagnostics = {
 					Error = " ",
@@ -62,11 +61,9 @@ return {
 								hint = icons.diagnostics.Hint,
 							},
 						},
-					},
-					lualine_c = {
 						'filename',
-					'buffers',
 					},
+					lualine_c = { 'buffers' },
 					lualine_x = { 'encoding', 'fileformat', 'filetype' },
 					lualine_y = { 'progress' },
 					lualine_z = { 'location' }
