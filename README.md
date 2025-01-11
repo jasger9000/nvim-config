@@ -6,6 +6,7 @@ My Neovim configuration with all its plugins
 ## Requirements
 - Neovim
 - git
+- A [patched font](https://www.nerdfonts.com/) (If you're using Arch Linux you can search the package database for something like "ttf nerd" for a list of patched fonts)
 
 ## How to Set up
 1. Clone the repository into .config/nvim
