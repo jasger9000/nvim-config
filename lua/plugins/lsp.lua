@@ -1,7 +1,6 @@
 return {
 	{
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v4.x',
+		'neovim/nvim-lspconfig',
 		config = function()
 			vim.opt.signcolumn = 'yes'
 
@@ -14,55 +13,72 @@ return {
 				require('cmp_nvim_lsp').default_capabilities()
 			)
 
-			local lsp = require('lsp-zero')
-			local cmp = require('cmp')
+			vim.api.nvim_create_autocmd('LspAttach', {
+				desc = 'LSP actions',
+				callback = function(event)
+					local opts = {buffer = event.buf}
 
+					vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+					vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+					vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+					vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+					vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+					vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+					vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+					vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+					vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+					vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+				end,
+			})
+
+			local cmp = require('cmp')
 			cmp.setup({
 				sources = {
-					{ name = 'path' },
 					{ name = 'nvim_lsp' },
-					{ name = 'nvim_lua' },
+					{ name = 'buffer' },
 				},
-				formatting = lsp.cmp_format(),
-				mapping = cmp.mapping.preset.insert({
-					-- Navigate between completion items
-					['<C-p>'] = cmp.mapping.select_prev_item({behavior = 'select'}),
-					['<C-n>'] = cmp.mapping.select_next_item({behavior = 'select'}),
-
-					['<CR>'] = cmp.mapping.confirm({ select = false }),
-
-					['<C-Space>'] = cmp.mapping.complete(),
-
-					['<C-j>'] = cmp.mapping.scroll_docs(-4),
-					['<C-d>'] = cmp.mapping.scroll_docs(4),
-				}),
-				snipper = {
-					expand = function(args)
+				snippet = {
+					expand = function (args)
 						vim.snippet.expand(args.body)
 					end,
 				},
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
+				experimental = {
+					ghost_text = true,
+				},
+				mapping = cmp.mapping.preset.insert({
+					['<C-k>'] = cmp.mapping.select_prev_item({behavior = 'select'}),
+					['<C-j>'] = cmp.mapping.select_next_item({behavior = 'select'}),
+
+					['<C-h>'] = cmp.mapping.scroll_docs(4),
+					['<C-l>'] = cmp.mapping.scroll_docs(-4),
+
+					['<C-e>'] = cmp.mapping.abort(),
+					['<CR>'] = cmp.mapping.confirm({ select = false }),
+					['<C-Space>'] = cmp.mapping.complete(),
+				}),
 			})
 
-			lsp.on_attach(function(_client, bufnr)
-				-- see :help lsp-zero-keybindings
-				-- to learn the available actions
-				lsp.default_keymaps({ buffer = bufnr })
-			end)
+			local handlers = {
+				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded' }),
+				["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded' }),
+			}
 
 			require('mason').setup({})
 			require('mason-lspconfig').setup({
 				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'html' },
 				handlers = {
-					lsp.default_setup,
-
-					lua_ls = function()
-						local lua_opts = lsp.nvim_lua_ls()
-						lspconfig.lua_ls.setup(lua_opts)
+					function (server)
+						lspconfig[server].setup({ handlers = handlers })
 					end,
 
 					html = function ()
 						lspconfig.html.setup({
 							filetypes = { 'html', 'templ', 'htmldjango' },
+							handlers = handlers
 						})
 					end
 --					jinja_lsp = function ()
@@ -88,7 +104,6 @@ return {
 	{ 'williamboman/mason.nvim' },
 	{ 'williamboman/mason-lspconfig.nvim' },
 
-	{ 'neovim/nvim-lspconfig' },
 	{ 'hrsh7th/cmp-nvim-lsp' },
 	{ 'hrsh7th/nvim-cmp' },
 }
