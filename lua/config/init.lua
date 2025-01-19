@@ -27,7 +27,6 @@ require("lazy").setup({
 	},
 	install = {
 		missing = true,
-		colorscheme = { "rose-pine" },
 	},
 	checker = { enabled = false },
 	performance = {

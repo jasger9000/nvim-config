@@ -1,13 +1,40 @@
 return {
-	{
-		'rose-pine/neovim',
-		name = 'rose-pine',
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme('rose-pine')
+	"catppuccin/nvim",
+	name = "catppuccin",
+	priority = 1000,
+	config = function()
+		require("catppuccin").setup({
+			integrations = {
+				mason = true,
+				mini = {
+					enabled = true,
+					indentscope_color = "",
+				},
+				native_lsp = {
+					enabled = true,
+					virtual_text = {
+						errors = { "italic" },
+						hints = { "italic" },
+						warnings = { "italic" },
+						information = { "italic" },
+						ok = { "italic" },
+					},
+					underlines = {
+						errors = { "underline" },
+						hints = { "underline" },
+						warnings = { "underline" },
+						information = { "underline" },
+					},
+					inlay_hints = {
+						background = true,
+					},
+				},
+				nvim_surround = true,
+				treesitter = true,
+				telescope = { enabled = true },
+			}
+		})
 
-			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-		end
-	},
+		vim.cmd.colorscheme("catppuccin")
+	end
 }
