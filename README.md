@@ -4,7 +4,7 @@
 My Neovim configuration with all its plugins
 
 ## Requirements
-- Neovim
+- Neovim v10+
 - git
 - A [patched font](https://www.nerdfonts.com/) (If you're using Arch Linux you can search the package database for something like "ttf nerd" for a list of patched fonts)
 
