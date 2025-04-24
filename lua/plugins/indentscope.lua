@@ -1,11 +1,8 @@
 return {
-	{
-		'echasnovski/mini.indentscope',
-		event = "VeryLazy",
-		opts = {
-			-- symbol = "▏",
-			symbol = "│",
-			options = { try_as_border = true },
-		},
-	}
+    'echasnovski/mini.indentscope',
+    opts = {
+        -- symbol = "▏",
+        symbol = "│",
+        options = { try_as_border = true },
+    },
 }
