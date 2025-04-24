@@ -74,9 +74,9 @@ return {
                 end
             end)(vim.lsp.util.open_floating_preview)
 
-				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'html' },
             require('mason').setup({})
             require('mason-lspconfig').setup({
+                ensure_installed = { 'lua_ls', 'rust_analyzer', 'cssls', 'html' },
                 handlers = {
                     function(server)
                         lspconfig[server].setup({})
