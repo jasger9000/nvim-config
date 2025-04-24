@@ -3,6 +3,7 @@ return {
         'neovim/nvim-lspconfig',
         config = function()
             vim.opt.signcolumn = 'yes'
+            vim.diagnostic.config({ virtual_text = true }) -- fix diagnostics not being displayed after line
 
             local lspconfig = require('lspconfig')
 
