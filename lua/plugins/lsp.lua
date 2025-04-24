@@ -66,18 +66,21 @@ return {
                 }),
             })
 
-			local handlers = {
-				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded' }),
-				["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded' }),
-			}
+            vim.lsp.util.open_floating_preview = (function(orig)
+                return function(contents, syntax, opts, ...)
+                    opts = opts or {}
+                    opts.border = opts.border or "rounded"
+                    return orig(contents, syntax, opts, ...)
+                end
+            end)(vim.lsp.util.open_floating_preview)
 
 				ensure_installed = { 'lua_ls', 'rust_analyzer', 'htmx', 'cssls', 'html' },
-					function (server)
-						lspconfig[server].setup({ handlers = handlers })
-					end,
             require('mason').setup({})
             require('mason-lspconfig').setup({
                 handlers = {
+                    function(server)
+                        lspconfig[server].setup({})
+                    end,
 
                     html = function()
                         lspconfig.html.setup({
