@@ -15,26 +15,26 @@ return {
                 require('cmp_nvim_lsp').default_capabilities()
             )
 
-            vim.api.nvim_create_autocmd('LspAttach', {
-                desc = 'LSP actions',
-                callback = function(event)
-                    local opts = { buffer = event.buf }
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+            vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
+            vim.keymap.set('n', 'go', vim.lsp.buf.type_definition)
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+            vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
+            vim.keymap.set('n', 'ge', vim.diagnostic.open_float)
+            vim.keymap.set('n', 'gne', function() vim.diagnostic.jump({ count = 1 }) end)
+            vim.keymap.set('n', 'gpe', function() vim.diagnostic.jump({ count = -1 }) end)
+            vim.keymap.set('n', '<F2>', vim.lsp.buf.rename)
+            vim.keymap.set({ 'n', 'x' }, '<F3>', vim.lsp.buf.format)
+            vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action)
 
-                    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-                    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-                    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-                    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-                    vim.keymap.set('n', 'go', vim.lsp.buf.type_definition, opts)
-                    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-                    vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help, opts)
-                    vim.keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
-                    vim.keymap.set('n', 'gne', function() vim.diagnostic.jump({ count = 1 }) end, opts)
-                    vim.keymap.set('n', 'gpe', function() vim.diagnostic.jump({ count = -1 }) end, opts)
-                    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
-                    vim.keymap.set({ 'n', 'x' }, '<F3>', vim.lsp.buf.format, opts)
-                    vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, opts)
-                end,
-            })
+            -- delete default keymaps that interfere with gr
+            vim.keymap.del('n', 'gra')
+            vim.keymap.del('n', 'gri')
+            vim.keymap.del('n', 'grn')
+            vim.keymap.del('n', 'grr')
+            vim.keymap.del('n', 'grt')
 
             local cmp = require('cmp')
             cmp.setup({
