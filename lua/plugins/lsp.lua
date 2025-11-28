@@ -1,6 +1,7 @@
 return {
     {
         'neovim/nvim-lspconfig',
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             vim.opt.signcolumn = 'yes'
             vim.diagnostic.config({ virtual_text = true }) -- fix diagnostics not being displayed after line
