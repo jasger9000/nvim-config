@@ -6,7 +6,7 @@ return {
 		{ "<C-p>", function() require('telescope.builtin').git_files({}) end, desc = "Git search" },
 		{
 			"<leader>ps",
-			function() require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") }); end,
+			function() require('telescope.builtin').live_grep({}); end,
 			desc = "Grep search"
 		}
 	},
