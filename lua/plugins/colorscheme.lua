@@ -31,6 +31,18 @@ return {
                 treesitter = true,
                 telescope = { enabled = true },
             },
+            custom_highlights = function(colors)
+                return {
+                    Red = { fg = colors.red },
+                    Green = { fg = colors.green },
+                    Orange = { fg = colors.peach },
+                    Yellow = { fg = colors.yellow },
+                    Blue = { fg = colors.blue },
+                    Teal = { fg = colors.teal },
+                    Mauve = { fg = colors.mauve },
+                    Pink = { fg = colors.pink },
+                }
+            end,
         })
 
         vim.cmd.colorscheme("catppuccin")

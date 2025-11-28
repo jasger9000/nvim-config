@@ -44,15 +44,18 @@ return {
                 end
             end)(vim.lsp.util.open_floating_preview)
 
+            local luasnip = require('luasnip')
             local cmp = require('cmp')
+
             cmp.setup({
                 sources = {
                     { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
                     { name = 'buffer' },
                 },
                 snippet = {
                     expand = function(args)
-                        vim.snippet.expand(args.body)
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
                 window = {
@@ -113,14 +116,18 @@ return {
 --					end
                 },
             })
-        end
+        end,
+        dependencies = {
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
+
+            'hrsh7th/nvim-cmp',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+            'saadparwaiz1/cmp_luasnip',
+            'L3MON4D3/LuaSnip',
+        }
     },
-
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
-
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/nvim-cmp' },
     {
         "micangl/cmp-vimtex",
         ft = "tex",
