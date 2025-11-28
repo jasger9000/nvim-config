@@ -75,6 +75,14 @@ return {
                 end
             end)(vim.lsp.util.open_floating_preview)
 
+            cmp.setup.filetype("tex", {
+                sources = {
+                    { name = 'vimtex' },
+                    { name = 'luasnip' },
+                    { name = 'buffer' },
+                },
+            })
+
             require('mason').setup({})
             require('mason-lspconfig').setup({
                 ensure_installed = { 'lua_ls', 'rust_analyzer', 'cssls', 'html' },
@@ -113,4 +121,11 @@ return {
 
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/nvim-cmp' },
+    {
+        "micangl/cmp-vimtex",
+        ft = "tex",
+        config = function()
+            require('cmp_vimtex').setup({})
+        end,
+    },
 }
