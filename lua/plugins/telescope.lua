@@ -1,5 +1,6 @@
 return {
-	'nvim-telescope/telescope.nvim', branch = '0.1.x',
+	'nvim-telescope/telescope.nvim',
+    version = '*',
 	keys = {
 		-- add a keymap to browse plugin files
 		{ "<leader>pf", function() require('telescope.builtin').find_files({}) end, desc = "Find file" },
@@ -10,5 +11,9 @@ return {
 			desc = "Grep search"
 		}
 	},
-	dependencies = { 'nvim-lua/plenary.nvim' }
+	dependencies = {
+        'nvim-lua/plenary.nvim',
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        'nvim-tree/nvim-web-devicons',
+    }
 }
