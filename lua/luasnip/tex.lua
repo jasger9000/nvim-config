@@ -43,19 +43,16 @@ return {
         fmta("\\emph{<>}", { d(1, hf.get_visual) })),
     --#endregion text
 
-    s({ trig = "sec", snippetType = "snippet", desc = "section*", wordTrig = false },
+    s({ trig = ";(s*)sec", snippetType = "autosnippet", desc = "(sub)section*", wordTrig = false, regTrig = true, condition = in_text },
         fmta(
             [[
-            \section*{<>}
+            \<>section*{<>}
             <>
-            ]], { i(1, "Section Name"), i(0) })
-    ),
-    s({ trig = "ssec", snippetType = "snippet", desc = "subsection*", wordTrig = false },
-        fmta(
-            [[
-            \subsection*{<>}
-            <>
-            ]], { i(1, "Section Name"), i(0) })
+            ]], {
+                f(function (_, snip) return string.rep("sub", string.len(snip.captures[1])) end),
+                i(1, "Section Name"),
+                i(0)
+            })
     ),
     s({ trig = "eq", snippetType = "snippet", desc = "equation*", wordTrig = false },
         {
@@ -82,24 +79,24 @@ return {
             {
                 f(function (_, snip)
                     local cols = tonumber(snip.captures[3])
-                    local text = ""
+                    if cols == nil then
+                        return nil
+                    end
 
+                    local prefix
                     local insert
                     local suffix
                     if snip.captures[1] == "ed" then
-                        text = text .. " "
+                        prefix = " "
                         suffix = "| "
                         insert = "|c"
                     else
+                        prefix = ""
                         suffix = " "
                         insert = " c"
                     end
 
-                    for k = 1, cols do
-                        text = text .. insert
-                    end
-
-                    return text .. suffix
+                    return prefix .. string.rep(insert, cols) .. suffix
                 end),
                 d(1, function (_, snip)
                     local rows = tonumber(snip.captures[2])
