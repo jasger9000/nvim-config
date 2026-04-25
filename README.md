@@ -4,8 +4,14 @@
 My Neovim configuration with all its plugins
 
 ## Requirements
-- Neovim v10+
+- Neovim v12+
+- curl
 - git
+- tar
+- tree-sitter-cli
+- unzip
+- ripgrep (optional: for telescope live-grep search)
+- wget (optional: alternative for curl in mason.nvim)
 - A [patched font](https://www.nerdfonts.com/) (If you're using Arch Linux you can search the package database for something like "ttf nerd" for a list of patched fonts)
 
 ## How to Set up
@@ -21,6 +27,5 @@ My Neovim configuration with all its plugins
    2. In Neovim, Type `:Lazy<CR>` to open the plugin manager
    3. Hit <kbd>I</kbd> to Install the plugins
    4. Type `:q<CR>` to exit the window
-4. You're done! 🎉 Enjoy your new config
-
-PS: You will need to restart Neovim after you installed/updated your plugins to load the changes
+4. Restart Neovim after you installed/updated your plugins to load the changes
+5. You're done! 🎉 Enjoy your new config
