@@ -51,6 +51,25 @@ vim.keymap.set("n", "<C-K>", "<cmd>:bn<CR>")
 -- replace highlighted
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- toggle boolean with opposite
+vim.keymap.set("n", "tb", function ()
+    local word = vim.fn.expand('<cword>')
+
+	if word == 'true' then
+        word = "false"
+	elseif word == 'false' then
+        word = "true"
+	elseif word == 'True' then
+        word = "False"
+	elseif word == 'False' then
+        word = "True"
+    else
+        return
+    end
+
+    vim.cmd("normal! ciw" .. word);
+end)
+
 -- make buffer executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
