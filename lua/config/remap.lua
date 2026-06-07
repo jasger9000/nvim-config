@@ -53,3 +53,25 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- make buffer executable
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+vim.keymap.set('n', '<leader>w', function ()
+    if vim.o.wrap then
+        vim.o.wrap = false
+        vim.o.linebreak = false
+        vim.o.list = false
+        vim.keymap.del({'n', 'v'}, 'j')
+        vim.keymap.del({'n', 'v'}, 'k')
+        vim.keymap.del({'n', 'v'}, '0')
+        vim.keymap.del({'n', 'v'}, '^')
+        vim.keymap.del({'n', 'v'}, '$')
+    else
+        vim.o.wrap = true
+        vim.o.linebreak = true
+        vim.o.list = true
+        vim.keymap.set({'n', 'v'}, 'j', 'gj')
+        vim.keymap.set({'n', 'v'}, 'k', 'gk')
+        vim.keymap.set({'n', 'v'}, '0', 'g0')
+        vim.keymap.set({'n', 'v'}, '^', 'g^')
+        vim.keymap.set({'n', 'v'}, '$', 'g$')
+    end
+end)
