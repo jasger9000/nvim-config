@@ -4,6 +4,7 @@ return {
     priority = 1000,
     config = function()
         require("catppuccin").setup({
+            flavour = "mocha",
             integrations = {
                 alpha = true,
                 mason = true,
