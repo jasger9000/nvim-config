@@ -74,6 +74,7 @@ end)
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set('n', '<leader>w', function ()
+    local state="err"
     if vim.o.wrap then
         vim.o.wrap = false
         vim.o.linebreak = false
@@ -83,6 +84,7 @@ vim.keymap.set('n', '<leader>w', function ()
         vim.keymap.del({'n', 'v'}, '0')
         vim.keymap.del({'n', 'v'}, '^')
         vim.keymap.del({'n', 'v'}, '$')
+        state="off"
     else
         vim.o.wrap = true
         vim.o.linebreak = true
@@ -92,5 +94,8 @@ vim.keymap.set('n', '<leader>w', function ()
         vim.keymap.set({'n', 'v'}, '0', 'g0')
         vim.keymap.set({'n', 'v'}, '^', 'g^')
         vim.keymap.set({'n', 'v'}, '$', 'g$')
+        state="on"
     end
+
+    vim.print("word wrap: " .. state)
 end)
